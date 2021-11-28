@@ -3,7 +3,11 @@ const express = require('express'),
     bodyParser = require('body-parser')
 
 // mongodb connection
-const db = mongoose.connect('mongodb://localhost/bookAPI')
+let db;
+if (process.env.ENV === 'Test')
+    db = mongoose.connect('mongodb://localhost/bookAPI_test')
+else
+    db = mongoose.connect('mongodb://localhost/bookAPI')
 
 // import our models
 const Book = require('./models/bookModel')
@@ -30,3 +34,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('Running on PORT :' + port)
 })
+
+module.exports = app
